@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Q&A for Abhi 💕</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffe6f0, #e6f7ff, #f0e6ff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff69b4;
+            animation: float 6s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Card Container */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Question Text */
+        .question {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .no-btn {
+            background: linear-gradient(45deg, #ffa07a, #ff7f50);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 160, 122, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        /* Final Message */
+        .final-message {
+            display: none;
+            font-size: 2rem;
+            color: #ff1493;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .card {
+                padding: 20px;
+            }
+            .question {
+                font-size: 1.2rem;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s;">💖</div>
+    <div class="heart" style="left: 20%; animation-delay: 1s;">💕</div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;">💗</div>
+    <div class="heart" style="left: 40%; animation-delay: 3s;">💓</div>
+    <div class="heart" style="left: 50%; animation-delay: 4s;">💞</div>
+    <div class="heart" style="left: 60%; animation-delay: 5s;">💖</div>
+    <div class="heart" style="left: 70%; animation-delay: 6s;">💕</div>
+    <div class="heart" style="left: 80%; animation-delay: 7s;">💗</div>
+    <div class="heart" style="left: 90%; animation-delay: 8s;">💓</div>
+
+    <!-- Main Card -->
+    <div class="card">
+        <div class="question" id="question">do you like me?</div>
+        <div class="buttons" id="buttons">
+            <button class="yes-btn" id="yes-btn">YES 💕</button>
+            <button class="no-btn" id="no-btn">NO</button>
+        </div>
+        <div class="final-message" id="final-message">Yay! I knew it 💕<br>You make my heart flutter! ✨</div>
+    </div>
+
+    <script>
+        // Questions array
+        const questions = [
+            "do you like me?",
+            "can I be the reason for your smile?",
+            "can you trust me?",
+            "will you allow me to make everything right whatever went wrong?",
+            "will you go on a date with me?"
+            
+        ];
+
+        let currentQuestionIndex = 0;
+        const questionElement = document.getElementById('question');
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const buttonsDiv = document.getElementById('buttons');
+        const finalMessage = document.getElementById('final-message');
+
+        // Function to move NO button to random position
+        function dodgeNoButton() {
+            const card = document.querySelector('.card');
+            const cardRect = card.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            // Calculate random position within the card, avoiding edges
+            const maxX = cardRect.width - btnRect.width - 20;
+            const maxY = cardRect.height - btnRect.height - 20;
+
+            const randomX = Math.random() * maxX + 10;
+            const randomY = Math.random() * maxY + 10;
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Event listeners for NO button
+        noBtn.addEventListener('mouseover', dodgeNoButton);
+        noBtn.addEventListener('mousedown', dodgeNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent any click
+            dodgeNoButton();
+        });
+
+        // YES button click handler
+        yesBtn.addEventListener('click', () => {
+            // Add a subtle animation effect
+            yesBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                yesBtn.style.transform = 'scale(1)';
+            }, 200);
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                questionElement.textContent = questions[currentQuestionIndex];
+                // Reset NO button position
+                noBtn.style.position = 'static';
+                noBtn.style.left = 'auto';
+                noBtn.style.top = 'auto';
+            } else {
+                // Show final message
+                questionElement.style.display = 'none';
+                buttonsDiv.style.display = 'none';
+                finalMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
